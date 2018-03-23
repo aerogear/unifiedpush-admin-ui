@@ -1,5 +1,5 @@
 angular.module('upsConsole')
-  .controller('AnalyticsController', function ( $scope, $q, metricsEndpoint, c3Factory ) {
+  .controller('AnalyticsController', function ( $scope, $q, metricsEndpoint, c3Factory, gettextCatalog ) {
 
     var self = this;
 
@@ -15,8 +15,8 @@ angular.module('upsConsole')
     this.platformArray = [];
 
     this.performance = [
-      ['Notifications Dispatched'],
-      ['Notifications Opened']
+      [gettextCatalog.getString('Notifications Dispatched')],
+      [gettextCatalog.getString('Notifications Opened')]
     ];
 
     function updateAnalytics() {
@@ -29,8 +29,8 @@ angular.module('upsConsole')
           self.appOpenedRate = ((data.appOpenedCounter * 100) / (data.receivers)) || 0;
 
           self.performance = [
-            ['Notifications Dispatched'],
-            ['Notifications Opened']
+            [gettextCatalog.getString('Notifications Dispatched')],
+            [gettextCatalog.getString('Notifications Opened')]
           ];
           angular.forEach(self.metrics, function (pushMessage) {
             pushMessage.message = JSON.parse(pushMessage.rawJsonMessage);
@@ -136,11 +136,7 @@ angular.module('upsConsole')
       },
       donut: {
         title: function() {
-          if (self.app.$deviceCount == 1) {
-            return '1 Device';
-          } else {
-            return self.app.$deviceCount + ' Devices';
-          }
+          return gettextCatalog.getPlural(self.app.$deviceCount, '1 Device', '{{$count}} Devices');
         }
       }
     };

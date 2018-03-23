@@ -1,12 +1,12 @@
 angular.module('upsConsole')
-  .controller('ActivityController', function ( $log, $timeout, $interval, $modal, variantModal, $scope, metricsEndpoint ) {
+  .controller('ActivityController', function ( $log, $timeout, $interval, $modal, variantModal, $scope, metricsEndpoint, gettextCatalog ) {
 
     var self = this;
 
-    this.TOOLTIP_TARGETS = "Targeted devices or topics for Android/Firebase";
-    this.TOOLTIP_OPENED = "Number of users that launched the mobile app by using the push notification";
-    this.TOOLTIP_SUCCESS = "Payload submitted to 3rd party push network for further processing";
-    this.TOOLTIP_FAIL = "Could not submit payload to 3rd party";
+    this.TOOLTIP_TARGETS = gettextCatalog.getString("Targeted devices or topics for Android/Firebase");
+    this.TOOLTIP_OPENED = gettextCatalog.getString("Number of users that launched the mobile app by using the push notification");
+    this.TOOLTIP_SUCCESS = gettextCatalog.getString("Payload submitted to 3rd party push network for further processing");
+    this.TOOLTIP_FAIL = gettextCatalog.getString("Could not submit payload to 3rd party");
 
     this.app = $scope.$parent.$parent.appDetail.app;
     this.metrics = [];
