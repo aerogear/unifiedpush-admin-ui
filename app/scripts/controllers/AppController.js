@@ -17,7 +17,7 @@
 'use strict';
 
 angular.module('upsConsole')
-  .controller('AppController', function ( $rootScope, $scope, $http, $interval, $timeout, $log, appConfig, dashboardEndpoint, $$rootRouter ) {
+  .controller('AppController', function ( $rootScope, $scope, $http, $interval, $timeout, $log, $location, appConfig, dashboardEndpoint, $$rootRouter ) {
 
     var self = this;
 
@@ -31,7 +31,9 @@ angular.module('upsConsole')
     this.username = getUsername();
     $scope.$watch(getUsername, function( newValue ) {
       self.username = newValue;
-      $$rootRouter.navigate('/');
+      // After the user is resolved, redirect to the URL passed
+      // to the browser
+      $$rootRouter.navigate($location.url());
     });
 
     this.havePendingRequests = function() {

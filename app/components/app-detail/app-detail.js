@@ -6,6 +6,7 @@ angular.module('upsConsole')
     this.app = null; // is retrieved in canActivate
     this.notifications = null; // is retrieved in canActivate
     this.tab = $routeParams.tab;
+    this.selectedVariant = $routeParams.variant;
 
     this.contextPath = ContextProvider.contextPath();
 
@@ -13,6 +14,14 @@ angular.module('upsConsole')
       return $q.all([
         applicationsEndpoint.getWithMetrics({appId: $routeParams.app})
           .then(function( app ) {
+
+            // Expand the variant if an ID is passed in the URL
+            if (self.selectedVariant && app.variants) {
+              app.variants.forEach(function (variant) {
+                variant.$toggled = self.selectedVariant === variant.variantID;
+              });
+            }
+
             self.app = app;
             if ( !app.variants.length ) {
               self.tab = 'variants';
