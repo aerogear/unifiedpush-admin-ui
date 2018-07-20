@@ -12,6 +12,9 @@
 <p ng-if="variant.type == 'adm'">Amazon's Device Messaging Network (ADM) will be used.
   This is still experimental, the client SDK is not yet there.
 </p>
+<p ng-if="variant.type == 'webPush'">Mozilla Push Service (MPS) for Firefox or Firebase Cloud Messaging (FCM) for Google Chrome will be used.<br>
+  <i>This is experimental support of Push API for web browsers.</i>
+</p>
 
 <!--
   TODO:
@@ -76,6 +79,21 @@
   <dt>Client Secret:</dt>
   <dd>
     {{ variant.clientSecret }}<br />
+    <button class="btn btn-sm btn-default" ng-click="variants.edit( variant )"><span class="fa fa-pencil"></span> Edit network options</button>
+  </dd>
+</dl>
+<dl class="dl-horizontal" ng-if="variant.type == 'webPush'">
+  <dt>Network Type:</dt>
+  <dd>
+    WebPush<br/>
+  </dd>
+  <dt>FCM Server Key:</dt>
+  <dd class="project-number">{{ variant.fcmServerKey }}</dd>
+  <dt>FCM Sender ID:</dt>
+  <dd class="google-key">{{ variant.fcmSenderID }}</dd>
+  <dt>Custom server URL:</dt>
+  <dd class="custom-server-url">
+    {{ variant.customServerUrl }}<br />
     <button class="btn btn-sm btn-default" ng-click="variants.edit( variant )"><span class="fa fa-pencil"></span> Edit network options</button>
   </dd>
 </dl>

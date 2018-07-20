@@ -68,6 +68,7 @@ angular.module('upsConsole')
         case 'ios': return 'iOS';
         case 'windows_wns': return 'Windows';
         case 'android': return 'Android';
+        case 'webPush': return 'WebPush';
         default: return variant.type;
       }
     }

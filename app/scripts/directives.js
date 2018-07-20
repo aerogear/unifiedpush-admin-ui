@@ -149,7 +149,8 @@ angular.module('upsConsole')
           android:      { name: 'Android',    snippets: ['android', 'cordova', 'titanium', 'push_config'] },
           ios:          { name: 'iOS',        snippets: ['ios_objc', 'ios_swift', 'cordova', 'titanium', 'push_config']},
           windows_wns:  { name: 'Windows',    snippets: ['dotnet', 'cordova', 'push_config'] },
-          adm:          { name: 'ADM',        snippets: ['adm'] }
+          adm:          { name: 'ADM',        snippets: ['adm'] },
+          webPush:      { name: 'WebPush',    snippets: ['push_config'] }
         };
         $scope.state = {
           activeSnippet: $scope.typeEnum[$scope.variant.type].snippets[0]
