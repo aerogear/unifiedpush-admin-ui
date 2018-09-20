@@ -14,9 +14,13 @@ First you should have built the whole project with `mvn`
 mvn clean install
 ```
 
+Make sure to install yarn:
+
+    npm install -g yarn
+
 Then install all project dependencies by running:
     
-    npm install && bower install
+    yarn
 
 UPS is run using a {Wildfly-10|EAP 7} server so one of these servers will need to be installed.
 

@@ -13,6 +13,7 @@ module.exports = function (grunt) {
 
   // load custom tasks
   grunt.loadTasks('tasks');
+  grunt.loadNpmTasks('grunt-contrib-symlink');
 
   // configurable paths
   var yeomanConfig = {
@@ -21,11 +22,6 @@ module.exports = function (grunt) {
     dist: 'dist',
     tmp: '.tmp'
   };
-
-  try {
-    yeomanConfig.app = require('./bower.json').appPath || yeomanConfig.app;
-  } catch (e) {
-  }
 
   grunt.initConfig({
     yeoman: yeomanConfig,
@@ -178,6 +174,18 @@ module.exports = function (grunt) {
             dest: '<%= yeoman.dist %>'
           }
         ]
+      }
+    },
+    symlink: {
+      frontend: {
+        options: {
+          overwrite: true,
+          force: true
+        },
+        explicit: {
+          src: './node_modules/@bower_components',
+          dest: './app/bower_components'
+        }
       }
     },
     // Put files not handled in other tasks here
@@ -344,13 +352,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    bower: {
-      install: {
-        options: {
-          targetDir: 'app/bower-components/'
-        }
-      }
-    },
     compress: {
       main: {
         options: {
@@ -429,7 +430,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('dist', [
-    'bower:install',
     'default'
   ]);
 
