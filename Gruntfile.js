@@ -13,7 +13,6 @@ module.exports = function (grunt) {
 
   // load custom tasks
   grunt.loadTasks('tasks');
-  grunt.loadNpmTasks('grunt-contrib-symlink');
 
   // configurable paths
   var yeomanConfig = {
@@ -174,18 +173,6 @@ module.exports = function (grunt) {
             dest: '<%= yeoman.dist %>'
           }
         ]
-      }
-    },
-    symlink: {
-      frontend: {
-        options: {
-          overwrite: true,
-          force: true
-        },
-        explicit: {
-          src: './node_modules/@bower_components',
-          dest: './app/bower_components'
-        }
       }
     },
     // Put files not handled in other tasks here
