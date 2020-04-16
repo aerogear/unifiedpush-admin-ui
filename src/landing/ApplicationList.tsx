@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   UserIcon,
   MessagesIcon,
@@ -22,6 +22,7 @@ import {
 } from '@patternfly/react-core';
 import { Label } from '../common/Label';
 import { CreateApplicationWizard } from '../application/wizard/CreateApplicationWizard';
+import { ApplicationListConsumer } from '../context/Context';
 
 interface Props {
   apps: PushApplication[];
@@ -40,6 +41,50 @@ export class ApplicationList extends Component<Props, State> {
   }
 
   render() {
+    const dataListItem = (app: PushApplication): ReactNode => (
+      <DataListItem aria-labelledby={'item'} key={app.pushApplicationID}>
+        <DataListItemRow>
+          <DataListItemCells
+            dataListCells={[
+              <DataListCell isIcon key="icon">
+                <div className={'app-icon'}>{app.name.charAt(0)}</div>
+              </DataListCell>,
+              <DataListCell key="primary content">
+                <div className="title">{app.name}</div>
+                <div className="subtitle">
+                  <List variant={ListVariant.inline}>
+                    <ListItem className="subtitle">
+                      <Label
+                        text={`created by admin ${app.developer}`}
+                        icon={<UserIcon />}
+                      />
+                    </ListItem>
+                    <ListItem className="subtitle">
+                      <Label
+                        text={`${
+                          app.variants ? app.variants.length : 0
+                          } variants`}
+                        icon={'fa fa-code-branch'}
+                      />
+                    </ListItem>
+                    <ListItem className="subtitle">
+                      <Label text={'0 messages sent'} icon={<MessagesIcon />} />
+                    </ListItem>
+                    <ListItem className="subtitle">
+                      <Label
+                        text={'0 devices registered'}
+                        icon={'fa fa-mobile'}
+                      />
+                    </ListItem>
+                  </List>
+                </div>
+              </DataListCell>,
+            ]}
+          />
+        </DataListItemRow>
+      </DataListItem>
+    );
+
     return (
       <>
         <CreateApplicationWizard

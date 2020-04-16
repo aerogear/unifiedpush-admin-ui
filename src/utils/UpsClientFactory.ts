@@ -1,13 +1,9 @@
 import { UnifiedPushAdminClient } from '@aerogear/unifiedpush-admin-client';
 
 export abstract class UpsClientFactory {
-  private static readonly UPS_URL = 'http://localhost:9999';
-
   private static readonly unifiedPushAdminClient = new UnifiedPushAdminClient(
-    UpsClientFactory.UPS_URL
+    'http://localhost:9999'
   );
 
   static readonly getUpsClient = () => UpsClientFactory.unifiedPushAdminClient;
-
-  static readonly getUPSServerURL = () => UpsClientFactory.UPS_URL;
 }

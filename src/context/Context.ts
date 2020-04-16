@@ -16,10 +16,10 @@ const defaultState: UpsAdminState = {
   total: 0,
   loading: false,
   error: undefined,
-  refresh: () => {},
+  refresh: () => { },
 };
 
-export interface ContextInterface extends UpsAdminState {}
+export interface ContextInterface extends UpsAdminState { }
 
 // tslint:disable-next-line:variable-name
 export const ApplicationListContext = React.createContext<ContextInterface>(

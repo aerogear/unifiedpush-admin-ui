@@ -31,8 +31,9 @@ export class CreateApplicationWizard extends Component<Props> {
       {
         id: 1,
         name: 'Create your first Application',
-        component: <CreateApplicationPage />,
-      },
+        component: createAppPage,
+        nextButtonText: 'Finish',
+      } as WizardStep,
     ];
 
     if (this.props.open) {
