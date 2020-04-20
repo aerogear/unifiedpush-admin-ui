@@ -21,7 +21,6 @@ export class App extends Component<{}, UpsAdminState> {
   }
 
   private readonly refresh = async () => {
-    console.log('Refresh called');
     try {
       const apps = await UpsClientFactory.getUpsClient().applications.find();
       this.setState({
