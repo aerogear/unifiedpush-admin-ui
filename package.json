@@ -17,7 +17,7 @@
     "es5-shim": "2.0.12",
     "font-awesome": "4.7.0",
     "google-code-prettify": "1.0.4",
-    "jquery": "2.1.1",
+    "jquery": "3.5.0",
     "json3": "3.2.6",
     "keycloak-js": "8.0.1",
     "ng-idle": "1.0.4",
