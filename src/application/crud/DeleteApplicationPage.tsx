@@ -11,7 +11,6 @@ import { PushApplication } from '@aerogear/unifiedpush-admin-client';
 
 interface State {
   name: string;
-  dialogModal: boolean;
 }
 
 interface Props {
@@ -25,7 +24,6 @@ export class DeleteApplicationPage extends Component<Props, State> {
     super(props);
     this.state = {
       name: '',
-      dialogModal: true,
     };
   }
 
