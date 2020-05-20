@@ -19,6 +19,9 @@ import {
   SplitItem,
   Button,
   DataListItem,
+  Pagination,
+  PaginationVariant,
+  getNextIndex,
 } from '@patternfly/react-core';
 import { TrashIcon, EditIcon } from '@patternfly/react-icons';
 import { Label } from '../common/Label';
@@ -26,6 +29,7 @@ import { CreateApplicationWizard } from '../application/wizard/CreateApplication
 import { ApplicationListConsumer } from '../context/Context';
 import { DeleteApplicationPage } from '../application/crud/DeleteApplicationPage';
 import { UpdateApplicationPage } from '../application/crud/UpdateApplicationPage';
+import { UpsClientFactory } from '../utils/UpsClientFactory';
 
 interface Props {
   apps: PushApplication[];
@@ -36,6 +40,8 @@ interface State {
   deleteApplicationPage: boolean;
   updateApplicationPage: boolean;
   selectedApp?: PushApplication;
+  currentPage: number;
+  totalApps: number;
 }
 
 export class ApplicationList extends Component<Props, State> {
@@ -45,12 +51,18 @@ export class ApplicationList extends Component<Props, State> {
       openCreateAppWizard: false,
       deleteApplicationPage: false,
       updateApplicationPage: false,
+      currentPage: 0,
+      totalApps: 0,
     };
   }
 
   render() {
     const dataListItem = (app: PushApplication): ReactNode => (
-      <DataListItem aria-labelledby={'item'} key={app.pushApplicationID}>
+      <DataListItem
+        aria-labelledby={'item'}
+        key={app.pushApplicationID}
+        className="appList"
+      >
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -84,46 +96,52 @@ export class ApplicationList extends Component<Props, State> {
                         icon={'fa fa-mobile'}
                       />
                     </ListItem>
-                    <ListItem>
-                      <Button
-                        variant="secondary"
-                        icon={<EditIcon />}
-                        onClick={() =>
-                          this.setState({
-                            updateApplicationPage: true,
-                            selectedApp: app,
-                          })
-                        }
-                      >
-                        <EditIcon />
-                      </Button>
-                    </ListItem>
-                    <ListItem>
-                      <Button
-                        variant="danger"
-                        icon={TrashIcon}
-                        onClick={() =>
-                          this.setState({
-                            deleteApplicationPage: true,
-                            selectedApp: app,
-                          })
-                        }
-                      >
-                        <TrashIcon />
-                      </Button>
-                    </ListItem>
                   </List>
                 </div>
+              </DataListCell>,
+              <DataListCell key="buttons">
+                <List className="buttonGroup" variant={ListVariant.inline}>
+                  <ListItem>
+                    <Button
+                      className="editBtn"
+                      variant="secondary"
+                      // isHover={false}
+                      icon={<EditIcon />}
+                      onClick={() =>
+                        this.setState({
+                          deleteApplicationPage: true,
+                          selectedApp: app,
+                        })
+                      }
+                    >
+                      <EditIcon />
+                    </Button>
+                  </ListItem>
+                  <ListItem>
+                    <Button
+                      className="deleteBtn"
+                      variant="danger"
+                      icon={TrashIcon}
+                      onClick={() =>
+                        this.setState({
+                          deleteApplicationPage: true,
+                          selectedApp: app,
+                        })
+                      }
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </ListItem>
+                </List>
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
     );
-
     return (
       <ApplicationListConsumer>
-        {({ applications, refresh }): ReactNode => {
+        {({ applications, refresh, total }): ReactNode => {
           return (
             <>
               <UpdateApplicationPage
@@ -182,6 +200,22 @@ export class ApplicationList extends Component<Props, State> {
               <DataList aria-label="Expandable data list example">
                 {applications.map(app => dataListItem(app))}
               </DataList>
+              <Pagination
+                itemCount={total}
+                widgetId="pagination-options-menu-bottom"
+                page={this.state.currentPage}
+                variant={PaginationVariant.bottom}
+                onNextClick={(_event, currentPage) => {
+                  this.setState({ currentPage });
+                  console.log(currentPage);
+                  refresh(currentPage - 1);
+                }}
+                onPreviousClick={(_event, currentPage) => {
+                  this.setState({ currentPage });
+                  refresh(currentPage - 1);
+                  console.log(currentPage);
+                }}
+              />
             </>
           );
         }}
