@@ -109,7 +109,7 @@ export class ApplicationList extends Component<Props, State> {
                       icon={<EditIcon />}
                       onClick={() =>
                         this.setState({
-                          deleteApplicationPage: true,
+                          updateApplicationPage: true,
                           selectedApp: app,
                         })
                       }
