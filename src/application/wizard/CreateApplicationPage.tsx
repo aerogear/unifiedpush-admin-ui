@@ -45,7 +45,7 @@ export class CreateApplicationPage extends Component<Props, State> {
       <EmptyState variant={EmptyStateVariant.full}>
         <EmptyStateIcon icon={RocketIcon} />
         <Title headingLevel="h5" size="lg">
-          Create your an application
+          Create an application
         </Title>
         <EmptyStateBody>
           We will hold your hand and guide you all the way. Sit back and enjoy
@@ -66,9 +66,9 @@ export class CreateApplicationPage extends Component<Props, State> {
                 onChange={value => this.setState({ appName: value })}
                 isRequired
                 placeholder={'Application name'}
-
                 type="text"
-                aria-label="text input example"
+                aria-label="Text Input for Application Name"
+                css={''}
               />
               <Button
                 variant="primary"

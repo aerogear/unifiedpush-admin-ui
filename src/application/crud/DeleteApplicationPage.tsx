@@ -86,7 +86,7 @@ export class DeleteApplicationPage extends Component<Props, State> {
         </Form>
       </Modal>
     ) : (
-      <></>
-    );
+        <></>
+      );
   }
 }

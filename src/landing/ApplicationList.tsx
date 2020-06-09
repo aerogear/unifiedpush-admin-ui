@@ -19,10 +19,16 @@ import {
   SplitItem,
   Button,
   DataListItem,
+  Pagination,
+  PaginationVariant,
+  getNextIndex,
 } from '@patternfly/react-core';
 import { Label } from '../common/Label';
 import { CreateApplicationWizard } from '../application/wizard/CreateApplicationWizard';
 import { ApplicationListConsumer } from '../context/Context';
+import { DeleteApplicationPage } from '../application/crud/DeleteApplicationPage';
+import { UpdateApplicationPage } from '../application/crud/UpdateApplicationPage';
+import { UpsClientFactory } from '../utils/UpsClientFactory';
 
 interface Props {
   apps: PushApplication[];
@@ -30,6 +36,11 @@ interface Props {
 
 interface State {
   openCreateAppWizard: boolean;
+  deleteApplicationPage: boolean;
+  updateApplicationPage: boolean;
+  selectedApp?: PushApplication;
+  currentPage: number;
+  totalApps: number;
 }
 
 export class ApplicationList extends Component<Props, State> {
@@ -37,6 +48,10 @@ export class ApplicationList extends Component<Props, State> {
     super(props);
     this.state = {
       openCreateAppWizard: false,
+      deleteApplicationPage: false,
+      updateApplicationPage: false,
+      currentPage: 0,
+      totalApps: 0,
     };
   }
 
@@ -84,10 +99,9 @@ export class ApplicationList extends Component<Props, State> {
         </DataListItemRow>
       </DataListItem>
     );
-
     return (
       <ApplicationListConsumer>
-        {({ applications, refresh }): ReactNode => {
+        {({ applications, refresh, total }): ReactNode => {
           return (
             <>
               <CreateApplicationWizard
@@ -127,9 +141,25 @@ export class ApplicationList extends Component<Props, State> {
                   </Button>
                 </SplitItem>
               </Split>
-              <DataList aria-label="Expandable data list example">
+              <DataList aria-label="Data list for Push Applications on the Server">
                 {applications.map(app => dataListItem(app))}
               </DataList>
+              <Pagination
+                itemCount={total}
+                widgetId="pagination-options-menu-bottom"
+                page={this.state.currentPage}
+                variant={PaginationVariant.bottom}
+                onNextClick={(_event, currentPage) => {
+                  this.setState({ currentPage });
+                  console.log(currentPage);
+                  refresh(currentPage - 1);
+                }}
+                onPreviousClick={(_event, currentPage) => {
+                  this.setState({ currentPage });
+                  refresh(currentPage - 1);
+                  console.log(currentPage);
+                }}
+              />
             </>
           );
         }}
