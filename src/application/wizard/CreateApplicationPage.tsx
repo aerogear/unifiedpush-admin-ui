@@ -67,7 +67,7 @@ export class CreateApplicationPage extends Component<Props, State> {
                 isRequired
                 placeholder={'Application name'}
                 type="text"
-                aria-label="text input example"
+                aria-label="Text Input for Application Name"
                 css={''}
               />
               <Button

@@ -22,13 +22,10 @@ export class App extends Component<{}, UpsAdminState> {
   }
 
   private readonly refresh = async (currentPage = 0) => {
-    console.log('Refresh called');
-    console.log(currentPage);
     try {
       const searchResults = await UpsClientFactory.getUpsClient().applications.find(
         { page: currentPage }
       );
-      console.log(searchResults);
       this.setState({
         applications: searchResults.appList,
         total: searchResults.total,

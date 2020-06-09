@@ -105,7 +105,6 @@ export class ApplicationList extends Component<Props, State> {
                     <Button
                       className="editBtn"
                       variant="secondary"
-                      // isHover={false}
                       icon={<EditIcon />}
                       onClick={() =>
                         this.setState({
@@ -197,7 +196,7 @@ export class ApplicationList extends Component<Props, State> {
                   </Button>
                 </SplitItem>
               </Split>
-              <DataList aria-label="Expandable data list example">
+              <DataList aria-label="Data list for Push Applications on the Server">
                 {applications.map(app => dataListItem(app))}
               </DataList>
               <Pagination
