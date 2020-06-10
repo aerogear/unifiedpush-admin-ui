@@ -24,10 +24,10 @@ import {
   getNextIndex,
 } from '@patternfly/react-core';
 import { Label } from '../common/Label';
-import { CreateApplicationWizard } from '../application/wizard/CreateApplicationWizard';
+import { CreateApplicationWizard } from './wizard/CreateApplicationWizard';
 import { ApplicationListConsumer } from '../context/Context';
-import { DeleteApplicationPage } from '../application/crud/DeleteApplicationPage';
-import { UpdateApplicationPage } from '../application/crud/UpdateApplicationPage';
+import { DeleteApplicationPage } from './crud/DeleteApplicationPage';
+import { UpdateApplicationPage } from './crud/UpdateApplicationPage';
 import { UpsClientFactory } from '../utils/UpsClientFactory';
 
 interface Props {

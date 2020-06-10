@@ -45,7 +45,7 @@ export class CreateApplicationPage extends Component<Props, State> {
       <EmptyState variant={EmptyStateVariant.full}>
         <EmptyStateIcon icon={RocketIcon} />
         <Title headingLevel="h5" size="lg">
-          Create your an application
+          Create an application
         </Title>
         <EmptyStateBody>
           We will hold your hand and guide you all the way. Sit back and enjoy

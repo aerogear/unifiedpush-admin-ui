@@ -1,5 +1,7 @@
-@import 'app-dashboard.css';
-
+@import 'app-dashboard.scss';
+@import 'landing-page.scss';
+@import 'app-list.scss';
+@import 'globals.scss' ;
 
 
 #root {
@@ -45,60 +47,8 @@
   }
 }
 
-.RightArrow {
-
-}
-
-.RightArrow:before {
-  content: "\f054";
-  font-family: "Font Awesome 5 Free", serif;
-  font-weight: 900;
-  position: absolute;
-  left: -17px;
-  top: 40px;
-  color: #999;
-  z-index: auto;
-}
-
-.ActionBox {
-  position: relative;
-  border-width: 1px;
-  border-color: #DCDCDC;
-  border-style: solid;
-}
-
-.ActionBox-content {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.ActionBox-content i {
-  margin-bottom: 15px;
-}
-
-.ups-number{
-  display: block;
-  left: 0px;
-  position: absolute;
-  top: -17px;
-  width: 100%;
-  text-align: center;
-}
-
-.ups-number span{
-  background: #262626;
-  border-radius: 17px;
-  box-shadow: 0 2px 3px rgba(0,0,0,.2);
-  color: white;
-  display: inline-block;
-  font-weight: bold;
-  line-height: 34px;
-  width: 34px;
-}
-
-.muted {
-  color: #999;
-  margin: 0;
+.small{
+  font-size: 13px !important;
 }
 
 h1 {
@@ -122,7 +72,7 @@ h1 {
 }
 
 .app-icon{
-  background-color: #2497DA;
+  background-color: $aerogearBlue;
   color: rgba(255,255,255,.9);
   font-size: 30px;
   font-weight: bold;
@@ -130,6 +80,42 @@ h1 {
   text-align: center;
   width: 50px;
   text-transform: capitalize;
+}
+
+emptyState {
+  margin-top: 64px;
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+
+//styling for Modal dialogs
+.dialog-form{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.formInput{
+  margin-top: 20px;
+}
+
+.formButtons{
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.dialogBtn {
+  margin-right: 10px;
+}
+
+.buttonGroup {
+  align-items: center;
+  height: 100%;
+  display: flex;
+  float: right;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
 }
 
 
