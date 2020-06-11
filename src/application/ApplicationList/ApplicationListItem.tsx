@@ -57,7 +57,7 @@ export class ApplicationListItem extends Component<Props> {
                       this.props.app.variants
                         ? this.props.app.variants.length
                         : 0
-                    } variants`}
+                      } variants`}
                     icon={'fa fa-code-branch'}
                   />
                 </ListItem>

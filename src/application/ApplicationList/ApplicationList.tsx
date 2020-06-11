@@ -136,7 +136,7 @@ export class ApplicationList extends Component<Props, State> {
                     Create Application
                   </Button>
                 </SplitItem>
-              </Split>
+              </Split >
               <DataList aria-label="Data list for Push Applications on the Server">
                 {applications.map((app: PushApplication) => (
                   <ApplicationListItem
@@ -165,8 +165,9 @@ export class ApplicationList extends Component<Props, State> {
               />
             </>
           );
-        }}
-      </ApplicationListConsumer>
+        }
+        }
+      </ApplicationListConsumer >
     );
   }
 }

@@ -79,7 +79,6 @@ export class CreateVariantPage extends Component<Props, State> {
                   onChange={value => this.setState({ variantName: value })}
                   isRequired
                   placeholder={'Variant name'}
-                  css={''}
                   type="text"
                   aria-label="text input example"
                 />
@@ -106,7 +105,6 @@ export class CreateVariantPage extends Component<Props, State> {
               <TextInput
                 className='variantForm'
                 isRequired
-                css={''}
               />
               <List>
                 <ListItem>

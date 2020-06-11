@@ -22,7 +22,7 @@
   font-family: "Font Awesome 5 Free", serif;
   font-weight: 900;
   position: absolute;
-  left: -17px;
+  left: -13px;
   top: 100px;
   color: #999;
   z-index: auto; }
@@ -36,7 +36,6 @@
   box-shadow: 5px 5px 8px #aaaaaa; }
 
 .ActionBox-content {
-  margin-top: 30px;
   text-align: center;
   width: 100%; }
 
@@ -45,7 +44,7 @@
   text-align: center; }
 
 .CardHead {
-  margin-top: 5px; }
+  margin-top: 30px; }
 
 .muted {
   color: #999;
