@@ -15,6 +15,9 @@ import {
   Form,
   FormGroup,
   Radio,
+  List,
+  ListItem,
+  ListComponent,
 } from '@patternfly/react-core';
 import { PushApplication } from '@aerogear/unifiedpush-admin-client';
 
@@ -105,6 +108,41 @@ export class CreateVariantPage extends Component<Props, State> {
                 isRequired
                 css={''}
               />
+              <List>
+                <ListItem>
+                  <Radio
+                    name='Android Radio'
+                    id='Android variant choice button'
+                    label='Android'
+                    description='using Firebase Cloud Messaging'
+                  />
+                </ListItem>
+                <ListItem>
+                  <Radio
+                    name='WebPush Radio'
+                    id='WebPush variant choice button'
+                    label='WebPush'
+                    description='using web browsers'
+                  />
+                </ListItem>
+                <ListItem>
+                  <Radio
+                    name='iOS APNS Radio'
+                    id='iOS APNS Token variant choice button'
+                    label='iOS(APNS Token)'
+                    description='using Apple Push Network with Tokens'
+                  />
+                </ListItem>
+                <ListItem>
+                  <Radio
+                    name='iOS Certificate Radio'
+                    id='iOS Certificate variant choice button'
+                    label='iOS(Certificate)'
+                    description='using Apple Push Network with certificates'
+                  />
+                </ListItem>
+              </List>
+
             </FormGroup>
           </Form>
 
