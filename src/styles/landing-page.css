@@ -1,0 +1,52 @@
+.ups-number {
+  display: block;
+  left: 0;
+  position: absolute;
+  top: -17px;
+  width: 100%;
+  text-align: center; }
+
+.ups-number span {
+  background: #262626;
+  border-radius: 17px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  color: #eee;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 34px;
+  width: 34px; }
+
+.RightArrow:before {
+  content: "\f054";
+  font-family: "Font Awesome 5 Free", serif;
+  font-weight: 900;
+  position: absolute;
+  left: -17px;
+  top: 100px;
+  color: #999;
+  z-index: auto; }
+
+.ActionBox {
+  position: relative;
+  border-width: 1px;
+  border-color: #DCDCDC;
+  border-style: solid;
+  background-color: #f5f5f5;
+  box-shadow: 5px 5px 8px #aaaaaa; }
+
+.ActionBox-content {
+  margin-top: 30px;
+  text-align: center;
+  width: 100%; }
+
+.ActionBox-content i {
+  margin-bottom: 15px;
+  text-align: center; }
+
+.CardHead {
+  margin-top: 5px; }
+
+.muted {
+  color: #999;
+  margin: 0; }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { CreateVariantPage } from './CreateVariantPage';
+import { CreateVariantPage } from '../crud/CreateVariantPage';
 import {
   Wizard,
   WizardContextConsumer,

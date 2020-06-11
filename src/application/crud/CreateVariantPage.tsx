@@ -8,11 +8,13 @@ import {
   Title,
   EmptyStateBody,
   Bullseye,
-  Form,
   InputGroup,
   TextInput,
   Button,
   Modal,
+  Form,
+  FormGroup,
+  Radio,
 } from '@patternfly/react-core';
 import { PushApplication } from '@aerogear/unifiedpush-admin-client';
 
@@ -92,7 +94,19 @@ export class CreateVariantPage extends Component<Props, State> {
             </Form>
           </Bullseye>
         </EmptyState>,
-        <Modal>
+        <Modal
+          width={'50%'}
+          title='Add Variant'
+        >
+          <Form >
+            <FormGroup fieldId='variant selection' helperText='Enter a name and choose a variant type'>
+              <TextInput
+                className='variantForm'
+                isRequired
+                css={''}
+              />
+            </FormGroup>
+          </Form>
 
         </Modal>
       </>
