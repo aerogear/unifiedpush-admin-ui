@@ -26,9 +26,12 @@
 
 .appList:hover {
   cursor: pointer; }
-  .appList:hover .buttonGroup {
-    opacity: 1; }
-  .appList:hover .app-icon {
-    background-color: #124d77; }
-  .appList:hover .title {
-    text-decoration: underline; }
+
+.appList:hover .buttonGroup {
+  opacity: 1; }
+
+.appList:hover .app-icon {
+  background-color: #124d77; }
+
+.appList:hover .title {
+  text-decoration: underline; }

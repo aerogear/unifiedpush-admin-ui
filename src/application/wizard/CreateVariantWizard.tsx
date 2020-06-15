@@ -24,7 +24,6 @@ export class CreateVariantWizard extends Component<Props> {
           onBack,
           onClose,
         }) => <CreateVariantPage onFinished={onNext} />}
-
       </WizardContextConsumer>
     );
     const steps = [

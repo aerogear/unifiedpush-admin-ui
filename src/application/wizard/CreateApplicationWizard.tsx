@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { CreateApplicationPage } from '../crud/CreateApplicationPage';
+import { CreateVariantPage } from '../crud/CreateVariantPage';
 import {
   Wizard,
   WizardContextConsumer,
@@ -32,6 +33,12 @@ export class CreateApplicationWizard extends Component<Props> {
         id: 1,
         name: 'Create your first Application',
         component: createAppPage,
+        nextButtonText: 'next',
+      },
+      {
+        id: 2,
+        name: 'Create Application Variant',
+        component: CreateVariantPage,
         nextButtonText: 'Finish',
       } as WizardStep,
     ];

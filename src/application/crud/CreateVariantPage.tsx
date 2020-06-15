@@ -18,11 +18,14 @@ import {
   List,
   ListItem,
   ListComponent,
+  FileUpload,
 } from '@patternfly/react-core';
 import { PushApplication } from '@aerogear/unifiedpush-admin-client';
+import { AndroidVariantForm } from '../VariantForms/AndroidVariantForm';
 
 interface State {
   variantName: string;
+  showAndroidVariantForm: boolean
   // appName: string;
 }
 
@@ -40,11 +43,14 @@ interface Props {
 //   }
 // };
 
+
+
 export class CreateVariantPage extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       variantName: '',
+      showAndroidVariantForm: false,
       // appName: this.props.app.name,
     };
   }
@@ -72,82 +78,15 @@ export class CreateVariantPage extends Component<Props, State> {
             </a>
           </EmptyStateBody>
           <Bullseye>
-            <Form style={{ width: 350, paddingTop: 20 }}>
-              <InputGroup>
-                <TextInput
-                  value={this.state.variantName}
-                  onChange={value => this.setState({ variantName: value })}
-                  isRequired
-                  placeholder={'Variant name'}
-                  type="text"
-                  aria-label="text input example"
-                />
-                <Button
-                  variant="primary"
-                  isDisabled={
-                    !this.state.variantName ||
-                    this.state.variantName.trim().length === 0
-                  }
-                // onClick={() => this.createVariant(this.state.appName)}
-                >
-                  Create Variant
+            <Button
+              variant="primary"
+              onClick={() => this.createVariant(this.state.appName)}
+            >
+              Create Variant
               </Button>
-              </InputGroup>
-            </Form>
           </Bullseye>
         </EmptyState>,
-        <Modal
-          width={'50%'}
-          title='Add Variant'
-        >
-          <Form >
-            <FormGroup fieldId='variant selection' helperText='Enter a name and choose a variant type'>
-              <TextInput
-                className='variantForm'
-                isRequired
-              />
-              <List>
-                <ListItem>
-                  <Radio
-                    name='Android Radio'
-                    id='Android variant choice button'
-                    label='Android'
-                    description='using Firebase Cloud Messaging'
-                  />
-                </ListItem>
-                <ListItem>
-                  <Radio
-                    name='WebPush Radio'
-                    id='WebPush variant choice button'
-                    label='WebPush'
-                    description='using web browsers'
-                  />
-                </ListItem>
-                <ListItem>
-                  <Radio
-                    name='iOS APNS Radio'
-                    id='iOS APNS Token variant choice button'
-                    label='iOS(APNS Token)'
-                    description='using Apple Push Network with Tokens'
-                  />
-                </ListItem>
-                <ListItem>
-                  <Radio
-                    name='iOS Certificate Radio'
-                    id='iOS Certificate variant choice button'
-                    label='iOS(Certificate)'
-                    description='using Apple Push Network with certificates'
-                  />
-                </ListItem>
-              </List>
-
-            </FormGroup>
-          </Form>
-
-        </Modal>
       </>
-
-
     );
   }
 }
