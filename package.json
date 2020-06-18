@@ -7,7 +7,7 @@
     "url": "https://github.com/aerogear/aerogear-unifiedpush-server/"
   },
   "dependencies": {
-    "angular": "^1.7.9",
+    "angular": "^1.8.0",
     "angular-animate": "1.7.9",
     "angular-patternfly": "https://github.com/patternfly/angular-patternfly/archive/v0.0.6.tar.gz",
     "angular-resource": "1.7.9",
