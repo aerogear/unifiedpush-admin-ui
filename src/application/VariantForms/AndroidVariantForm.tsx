@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 
-import {
-  TextInput,
-  Button,
-  Form,
-  FormGroup,
-} from '@patternfly/react-core';
-import { PushApplication } from '@aerogear/unifiedpush-admin-client';
+import { TextInput, Button, Form, FormGroup } from '@patternfly/react-core';
+import { AndroidVariant, Variant } from '@aerogear/unifiedpush-admin-client';
 
 interface State {
   serverKey: string;
@@ -14,44 +9,59 @@ interface State {
 }
 
 interface Props {
-  app: PushApplication;
-
+  // app: PushApplication;
+  open: boolean;
+  variantName: string;
+  onSave: (variant: Variant) => void;
+  // close: () => void;
 }
 
 export class AndroidVariantForm extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      serverKey: this.props.app.variants,
-      senderID: this.props.app.variants,
-
-    }
+      serverKey: '',
+      senderID: '',
+    };
   }
 
   render(): React.ReactNode {
+    const save = () => {
+      const variant = {
+        name: this.props.variantName,
+        type: 'android',
+        googleKey: this.state.serverKey,
+        projectNumber: this.state.senderID,
+      } as AndroidVariant;
+      this.props.onSave(variant);
+    };
+
+    if (!this.props.open) {
+      return null;
+    }
     return (
-      <Form
-        className="AndroidVariantForm">
+      <Form className="AndroidVariantForm">
         <FormGroup
           label={'Server Key'}
-          fieldId={'Android-Variant-Form-Server-key'}>
+          fieldId={'Android-Variant-Form-Server-key'}
+        >
           <TextInput
-            // onChange={value => this.setState({ name: value })}
+            onChange={value => this.setState({ serverKey: value })}
             isRequired
           />
         </FormGroup>
         <FormGroup
-          label={"Sender ID"}
-          fieldId={"Android-Variant-Form-Sender-ID"}
+          label={'Sender ID'}
+          fieldId={'Android-Variant-Form-Sender-ID'}
         >
           <TextInput
-            // onChange={value => this.setState({ name: value })}
+            onChange={value => this.setState({ senderID: value })}
             isRequired
           />
         </FormGroup>
         <Button>Cancel</Button>
-        <Button>Create</Button>
+        <Button onClick={save}>Create</Button>
       </Form>
-    )
+    );
   }
 }

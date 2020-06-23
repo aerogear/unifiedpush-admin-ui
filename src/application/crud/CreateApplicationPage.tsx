@@ -14,13 +14,14 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { UpsClientFactory } from '../../utils/UpsClientFactory';
+import { PushApplication } from '@aerogear/unifiedpush-admin-client';
 
 interface State {
   appName: string;
 }
 
 interface Props {
-  onFinished: () => void;
+  onFinished: (application: PushApplication) => void;
 }
 
 export class CreateApplicationPage extends Component<Props, State> {
@@ -33,8 +34,9 @@ export class CreateApplicationPage extends Component<Props, State> {
 
   private readonly createApp = async (name: string) => {
     try {
-      await UpsClientFactory.getUpsClient().applications.create(name);
-      this.props.onFinished();
+      this.props.onFinished(
+        await UpsClientFactory.getUpsClient().applications.create(name)
+      );
     } catch (err) {
       console.log(err);
     }

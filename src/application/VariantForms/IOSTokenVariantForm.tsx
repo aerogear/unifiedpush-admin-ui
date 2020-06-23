@@ -8,37 +8,43 @@ import {
 } from '@patternfly/react-core';
 import { PushApplication } from '@aerogear/unifiedpush-admin-client';
 
-interface State {
+interface State {}
 
-}
-
-interface Props {
-
-}
+interface Props {}
 
 export class IOSTokenVariantForm extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-
-    }
+    this.state = {};
   }
 
   render(): React.ReactNode {
     return (
-      <Form
-        className="iOSAPNSTokenVariantForm">
+      <Form className="iOSAPNSTokenVariantForm">
         <FormGroup
           label={'Private Key'}
-          fieldId={'iOS-Token-Variant-Form-Private-Key'}>
+          fieldId={'iOS-Token-Variant-Form-Private-Key'}
+        >
+          <TextInput
+            // onChange={value => this.setState({ name: value })}
+            isRequired
+          />
+        </FormGroup>
+        <FormGroup label={'Key Id'} fieldId={'iOS-Token-Variant-Form-Key-Id'}>
+          <TextInput
+            // onChange={value => this.setState({ name: value })}
+            isRequired
+          />
+        </FormGroup>
+        <FormGroup label={'Team Id'} fieldId={'iOS-Token-Variant-Form-Team-Id'}>
           <TextInput
             // onChange={value => this.setState({ name: value })}
             isRequired
           />
         </FormGroup>
         <FormGroup
-          label={"Key Id"}
-          fieldId={"iOS-Token-Variant-Form-Key-Id"}
+          label={'Bundle Id'}
+          fieldId={'iOS-Token-Variant-Form-Bundle-Id'}
         >
           <TextInput
             // onChange={value => this.setState({ name: value })}
@@ -46,43 +52,25 @@ export class IOSTokenVariantForm extends Component<Props, State> {
           />
         </FormGroup>
         <FormGroup
-          label={"Team Id"}
-          fieldId={"iOS-Token-Variant-Form-Team-Id"}
-        >
-          <TextInput
-            // onChange={value => this.setState({ name: value })}
-            isRequired
-          />
-        </FormGroup>
-        <FormGroup
-          label={"Bundle Id"}
-          fieldId={"iOS-Token-Variant-Form-Bundle-Id"}
-        >
-          <TextInput
-            // onChange={value => this.setState({ name: value })}
-            isRequired
-          />
-        </FormGroup>
-        <FormGroup
-          label={"Type"}
-          fieldId={"iOS-Token-Variant-Form-Type"}
-        // value={value}
-        // filename={filename}
+          label={'Type'}
+          fieldId={'iOS-Token-Variant-Form-Type'}
+          // value={value}
+          // filename={filename}
         >
           <Radio
-            id={"iOSTokenProduction"}
+            id={'iOSTokenProduction'}
             name="Production"
-            label="Production" />
+            label="Production"
+          />
           <Radio
-            id={"iOSTokenDevelopment"}
+            id={'iOSTokenDevelopment'}
             name="Development"
-            label="Development" />
-
+            label="Development"
+          />
         </FormGroup>
         <Button>Cancel</Button>
         <Button>Create</Button>
       </Form>
-    )
+    );
   }
 }
-
