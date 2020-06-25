@@ -18,6 +18,9 @@ import {
 } from '@aerogear/unifiedpush-admin-client';
 import { AndroidVariantForm } from './AndroidVariantForm';
 import { UpsClientFactory } from '../../utils/UpsClientFactory';
+import { WebpushVariantForm } from './WebpushVariantForm';
+import { IOSTokenVariantForm } from './IOSTokenVariantForm';
+import { IOSCertificateVariantForm } from './IOSCertificateForm';
 
 interface State {
   variantName: string;
@@ -57,14 +60,16 @@ export class VariantSelectionForm extends Component<Props, State> {
           onClose={this.props.close}
         >
           <Form>
-            <FormGroup fieldId="variant selection">
+            <FormGroup label="Name" fieldId="variant selection">
               <TextInput
+                id="variant-name"
                 className="variantForm"
                 isRequired
                 onChange={value => this.setState({ variantName: value })}
               />
-              <List>
+              <List className="radioList">
                 <Radio
+                  className="radioBtn"
                   name={'Android Radio'}
                   id="android"
                   label="android"
@@ -76,36 +81,39 @@ export class VariantSelectionForm extends Component<Props, State> {
                 />
 
                 <Radio
+                  className="radioBtn"
                   name="WebPush Radio"
-                  id="Webpush"
+                  id="web_push"
                   label="webpush"
                   description="using web browsers"
-                  checked={this.state.variantType === 'webpush'}
+                  checked={this.state.variantType === 'web_push'}
                   onChange={checked => {
-                    if (checked) this.setState({ variantType: 'webpush' });
+                    if (checked) this.setState({ variantType: 'web_push' });
                   }}
                 />
 
                 <Radio
+                  className="radioBtn"
                   name="iOS APNS Radio"
-                  id="iOSToken"
+                  id="ios_token"
                   label="iOS(APNS Token)"
                   description="using Apple Push Network with Tokens"
-                  isChecked={this.state.variantType === 'iOSToken'}
+                  isChecked={this.state.variantType === 'ios_token'}
                   onChange={checked => {
-                    if (checked) this.setState({ variantType: 'iOSToken' });
+                    if (checked) this.setState({ variantType: 'ios_token' });
                   }}
                 />
 
                 <Radio
+                  className="radioBtn"
                   name="iOS Certificate Radio"
-                  id="iOSCertificate"
+                  id="ios"
                   label="iOS(Certificate)"
                   description="using Apple Push Network with certificates"
-                  isChecked={this.state.variantType === 'iosCertificate'}
+                  isChecked={this.state.variantType === 'ios'}
                   onChange={checked => {
                     if (checked) {
-                      this.setState({ variantType: 'iosCertificate' });
+                      this.setState({ variantType: 'ios' });
                     }
                   }}
                 />
@@ -120,6 +128,55 @@ export class VariantSelectionForm extends Component<Props, State> {
                   this.props.close();
                 }}
                 variantName={this.state.variantName}
+                close={() => {
+                  this.setState({ androidVariantForm: false });
+                  this.props.close();
+                }}
+              />
+              <WebpushVariantForm
+                open={this.state.variantType === 'web_push'}
+                onSave={variant => {
+                  UpsClientFactory.getUpsClient().variants.create(
+                    this.props.app!.pushApplicationID!,
+                    variant
+                  );
+                  this.props.close();
+                }}
+                variantName={this.state.variantName}
+                close={() => {
+                  this.setState({ webpushVariantForm: false });
+                  this.props.close();
+                }}
+              />
+              <IOSTokenVariantForm
+                open={this.state.variantType === 'ios_token'}
+                onSave={variant => {
+                  UpsClientFactory.getUpsClient().variants.create(
+                    this.props.app!.pushApplicationID!,
+                    variant
+                  );
+                  this.props.close();
+                }}
+                variantName={this.state.variantName}
+                close={() => {
+                  this.setState({ iosTokenVariantForm: false });
+                  this.props.close();
+                }}
+              />
+              <IOSCertificateVariantForm
+                open={this.state.variantType === 'ios'}
+                onSave={variant => {
+                  UpsClientFactory.getUpsClient().variants.create(
+                    this.props.app!.pushApplicationID!,
+                    variant
+                  );
+                  this.props.close();
+                }}
+                variantName={this.state.variantName}
+                close={() => {
+                  this.setState({ iosCertificateVariantForm: false });
+                  this.props.close();
+                }}
               />
             </FormGroup>
           </Form>

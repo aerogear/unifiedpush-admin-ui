@@ -7,18 +7,55 @@ import {
   Radio,
   FileUpload,
 } from '@patternfly/react-core';
-import { PushApplication } from '@aerogear/unifiedpush-admin-client';
+import { Variant, IOSVariant } from '@aerogear/unifiedpush-admin-client';
 
-interface State {}
+interface State {
+  iosCertificate?: string | File;
+  filename?: string | File;
+  passphrase?: string;
+  production: boolean;
+  productionType: string;
+}
 
-interface Props {}
+interface Props {
+  open: boolean;
+  variantName: string;
+  onSave: (variant: Variant) => void;
+  close: () => void;
+}
 
 export class IOSCertificateVariantForm extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      iosCertificate: '',
+      filename: '',
+      passphrase: '',
+      production: false,
+      productionType: '',
+    };
   }
+
+  handleFileChange = (filename: string, value: string) => {
+    this.setState({ iosCertificate: value, filename });
+  };
+
   render(): React.ReactNode {
+    const save = () => {
+      const variant = {
+        name: this.props.variantName,
+        type: 'ios',
+        certificate: this.state.iosCertificate,
+        password: this.state.passphrase,
+        production: this.state.production,
+      } as IOSVariant;
+      this.props.onSave(variant);
+    };
+
+    if (!this.props.open) {
+      return null;
+    }
+
     return (
       <Form className="iOSCertificateVariantForm">
         <FormGroup
@@ -26,22 +63,39 @@ export class IOSCertificateVariantForm extends Component<Props, State> {
           fieldId={'iOS-Certificate-Variant-Form'}
         >
           <FileUpload
-            id="Certificate-file"
-            // value={value}
-            // filename={filename}
-            // onChange={this.handleFileChange}
+            id="certificateFile"
+            value={this.state.filename}
+            onChange={file =>
+              this.setState({ iosCertificate: file, filename: file })
+            }
           />
         </FormGroup>
-        <FormGroup label={'Type'} fieldId={'iOS-Certifiacte-Variant-Form-Type'}>
+        <FormGroup label={'Type'} fieldId={'iOS-Certificate-Variant-Form-Type'}>
           <Radio
+            className="radioBtn"
             id={'iOSCertificateProduction'}
             name="Production"
             label="Production"
+            isChecked={this.state.productionType === 'iOSCertificateProduction'}
+            onChange={checked => {
+              if (checked) {
+                this.setState({ productionType: 'iOSCertificateProduction' });
+              }
+            }}
           />
           <Radio
+            className="radioBtn"
             id={'iOSCertificateDevelopment'}
             name="Development"
             label="Development"
+            isChecked={
+              this.state.productionType === 'iOSCertificateDevelopment'
+            }
+            onChange={checked => {
+              if (checked) {
+                this.setState({ productionType: 'iOSCertificateDevelopment' });
+              }
+            }}
           />
         </FormGroup>
         <FormGroup
@@ -49,12 +103,19 @@ export class IOSCertificateVariantForm extends Component<Props, State> {
           fieldId={'iOS-Certificate-Variant-Form-PassPhrase'}
         >
           <TextInput
+            id="iosCertificatePassword1"
             isRequired
-            // onChange={value => this.setState({ name: value })}
+            onChange={value => this.setState({ passphrase: value })}
           />
         </FormGroup>
-        <Button>Cancel</Button>
-        <Button>Create</Button>
+        <div className="variantFormButtons">
+          <Button onClick={save} className="dialogBtn">
+            Create
+          </Button>
+          <Button variant="secondary" onClick={() => this.props.close()}>
+            Cancel
+          </Button>
+        </div>
       </Form>
     );
   }

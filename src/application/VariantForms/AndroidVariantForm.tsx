@@ -9,11 +9,10 @@ interface State {
 }
 
 interface Props {
-  // app: PushApplication;
   open: boolean;
   variantName: string;
   onSave: (variant: Variant) => void;
-  // close: () => void;
+  close: () => void;
 }
 
 export class AndroidVariantForm extends Component<Props, State> {
@@ -36,6 +35,10 @@ export class AndroidVariantForm extends Component<Props, State> {
       this.props.onSave(variant);
     };
 
+    // const close = () => {
+    //   this.props.close()
+    // };
+
     if (!this.props.open) {
       return null;
     }
@@ -46,6 +49,7 @@ export class AndroidVariantForm extends Component<Props, State> {
           fieldId={'Android-Variant-Form-Server-key'}
         >
           <TextInput
+            id="android-serverKey"
             onChange={value => this.setState({ serverKey: value })}
             isRequired
           />
@@ -55,12 +59,19 @@ export class AndroidVariantForm extends Component<Props, State> {
           fieldId={'Android-Variant-Form-Sender-ID'}
         >
           <TextInput
+            id="android-senderId"
             onChange={value => this.setState({ senderID: value })}
             isRequired
           />
         </FormGroup>
-        <Button>Cancel</Button>
-        <Button onClick={save}>Create</Button>
+        <div className="variantFormButtons">
+          <Button className="dialogBtn" onClick={save}>
+            Create
+          </Button>
+          <Button variant="secondary" onClick={() => this.props.close()}>
+            Cancel
+          </Button>
+        </div>
       </Form>
     );
   }

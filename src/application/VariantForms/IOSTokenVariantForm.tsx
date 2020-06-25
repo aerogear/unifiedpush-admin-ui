@@ -5,40 +5,80 @@ import {
   Form,
   FormGroup,
   Radio,
+  TextArea,
 } from '@patternfly/react-core';
-import { PushApplication } from '@aerogear/unifiedpush-admin-client';
+import { Variant, IOSTokenVariant } from '@aerogear/unifiedpush-admin-client';
 
-interface State {}
+interface State {
+  privateKey: string;
+  keyId: string;
+  teamId: string;
+  bundleId: string;
+  production: boolean;
+  productionType: string;
+}
 
-interface Props {}
+interface Props {
+  open: boolean;
+  variantName: string;
+  onSave: (variant: Variant) => void;
+  close: () => void;
+}
 
 export class IOSTokenVariantForm extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      privateKey: '',
+      keyId: '',
+      teamId: '',
+      bundleId: '',
+      production: false,
+      productionType: '',
+    };
   }
 
   render(): React.ReactNode {
+    const save = () => {
+      const variant = {
+        name: this.props.variantName,
+        type: 'ios_token',
+        privateKey: this.state.privateKey,
+        keyId: this.state.keyId,
+        teamId: this.state.teamId,
+        bundleId: this.state.bundleId,
+        production: this.state.production,
+      } as IOSTokenVariant;
+      this.props.onSave(variant);
+    };
+
+    if (!this.props.open) {
+      return null;
+    }
+
     return (
-      <Form className="iOSAPNSTokenVariantForm">
+      <Form className="ios TokenVariantForm">
         <FormGroup
           label={'Private Key'}
           fieldId={'iOS-Token-Variant-Form-Private-Key'}
         >
-          <TextInput
-            // onChange={value => this.setState({ name: value })}
+          <TextArea
+            id="iosTokenPrivateKey"
+            onChange={value => this.setState({ privateKey: value })}
             isRequired
           />
         </FormGroup>
         <FormGroup label={'Key Id'} fieldId={'iOS-Token-Variant-Form-Key-Id'}>
           <TextInput
-            // onChange={value => this.setState({ name: value })}
+            id="iosTokenKeyId"
+            onChange={value => this.setState({ keyId: value })}
             isRequired
           />
         </FormGroup>
         <FormGroup label={'Team Id'} fieldId={'iOS-Token-Variant-Form-Team-Id'}>
           <TextInput
-            // onChange={value => this.setState({ name: value })}
+            id="iosTokenTeamId"
+            onChange={value => this.setState({ teamId: value })}
             isRequired
           />
         </FormGroup>
@@ -47,29 +87,45 @@ export class IOSTokenVariantForm extends Component<Props, State> {
           fieldId={'iOS-Token-Variant-Form-Bundle-Id'}
         >
           <TextInput
-            // onChange={value => this.setState({ name: value })}
+            id="iosBundleId"
+            onChange={value => this.setState({ bundleId: value })}
             isRequired
           />
         </FormGroup>
-        <FormGroup
-          label={'Type'}
-          fieldId={'iOS-Token-Variant-Form-Type'}
-          // value={value}
-          // filename={filename}
-        >
+        <FormGroup label={'Type'} fieldId={'iOS-Token-Variant-Form-Type'}>
           <Radio
+            className="radioBtn"
             id={'iOSTokenProduction'}
             name="Production"
             label="Production"
+            isChecked={this.state.productionType === 'iOSTokenProduction'}
+            onChange={checked => {
+              if (checked) {
+                this.setState({ productionType: 'iOSTokenProduction' });
+              }
+            }}
           />
           <Radio
+            className="radioBtn"
             id={'iOSTokenDevelopment'}
             name="Development"
             label="Development"
+            isChecked={this.state.productionType === 'iOSTokenDevelopment'}
+            onChange={checked => {
+              if (checked) {
+                this.setState({ productionType: 'iOSTokenDevelopment' });
+              }
+            }}
           />
         </FormGroup>
-        <Button>Cancel</Button>
-        <Button>Create</Button>
+        <div className="variantFormButtons">
+          <Button onClick={save} className="dialogBtn">
+            Create
+          </Button>
+          <Button variant="secondary" onClick={() => this.props.close()}>
+            Cancel
+          </Button>
+        </div>
       </Form>
     );
   }

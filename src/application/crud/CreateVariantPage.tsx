@@ -17,7 +17,6 @@ import { VariantSelectionForm } from '../VariantForms/VariantSelectionForm';
 interface State {
   variantName: string;
   variantSelectionForm: boolean;
-  // appName: string;
 }
 
 interface Props {
@@ -41,8 +40,7 @@ export class CreateVariantPage extends Component<Props, State> {
         <EmptyState variant={EmptyStateVariant.full}>
           <EmptyStateIcon icon={CodeBranchIcon} />
           <Title headingLevel="h5" size="lg">
-            Create a Variant for
-            {/* {this.props.app!.name} */}
+            Create a Variant for {this.props.app!.name}
           </Title>
           <EmptyStateBody>
             The first step to set up your mobile device is to add a variants.

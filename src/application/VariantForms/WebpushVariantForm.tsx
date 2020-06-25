@@ -1,18 +1,45 @@
 import React, { Component } from 'react';
 
 import { TextInput, Button, Form, FormGroup } from '@patternfly/react-core';
-import { PushApplication } from '@aerogear/unifiedpush-admin-client';
+import { Variant, WebPushVariant } from '@aerogear/unifiedpush-admin-client';
 
-interface State {}
+interface State {
+  vapidPublicKey: string;
+  vapidPrivateKey: string;
+  alias: string;
+}
 
-interface Props {}
+interface Props {
+  open: boolean;
+  variantName: string;
+  onSave: (variant: Variant) => void;
+  close: () => void;
+}
 
 export class WebpushVariantForm extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      vapidPublicKey: '',
+      vapidPrivateKey: '',
+      alias: '',
+    };
   }
   render(): React.ReactNode {
+    const save = () => {
+      const variant = {
+        name: this.props.variantName,
+        type: 'web_push',
+        publicKey: this.state.vapidPublicKey,
+        privateKey: this.state.vapidPrivateKey,
+        alias: this.state.alias,
+      } as WebPushVariant;
+      this.props.onSave(variant);
+    };
+
+    if (!this.props.open) {
+      return null;
+    }
     return (
       <Form className="WebPushVariantForm">
         <FormGroup
@@ -20,7 +47,8 @@ export class WebpushVariantForm extends Component<Props, State> {
           fieldId={'Webpush-Variant-Form-Public-Key'}
         >
           <TextInput
-            // onChange={value => this.setState({ name: value })}
+            id="webpushVapidPublicKey"
+            onChange={value => this.setState({ vapidPublicKey: value })}
             isRequired
           />
         </FormGroup>
@@ -29,18 +57,26 @@ export class WebpushVariantForm extends Component<Props, State> {
           fieldId={'Webpush-Variant-Form-Vapid-Private-Key'}
         >
           <TextInput
-            // onChange={value => this.setState({ name: value })}
+            id="webpushVapidPrivateKey"
+            onChange={value => this.setState({ vapidPrivateKey: value })}
             isRequired
           />
         </FormGroup>
         <FormGroup label={'Alias'} fieldId={'Webpush-Variant-Form-Alias'}>
           <TextInput
-            // onChange={value => this.setState({ name: value })}
+            id="webpushAlias"
+            onChange={value => this.setState({ alias: value })}
             isRequired
           />
         </FormGroup>
-        <Button>Cancel</Button>
-        <Button>Create</Button>
+        <div className="variantFormButtons">
+          <Button onClick={save} className="dialogBtn">
+            Create
+          </Button>
+          <Button variant="secondary" onClick={() => this.props.close()}>
+            Cancel
+          </Button>
+        </div>
       </Form>
     );
   }
