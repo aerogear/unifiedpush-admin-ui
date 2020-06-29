@@ -22,7 +22,6 @@ interface Props {
 
 interface State {
   app?: PushApplication;
-
 }
 
 export class CreateApplicationWizard extends Component<Props, State> {
