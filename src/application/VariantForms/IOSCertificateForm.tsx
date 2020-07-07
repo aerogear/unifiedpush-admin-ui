@@ -50,8 +50,6 @@ export class IOSCertificateVariantForm extends Component<Props, State> {
       return null;
     }
 
-
-
     return (
       <Form className="iOSCertificateVariantForm">
         <FormGroup

@@ -7,15 +7,22 @@ import {
   WizardContextConsumer,
   WizardStep,
 } from '@patternfly/react-core';
-import { PushApplication } from '@aerogear/unifiedpush-admin-client';
+import {
+  PushApplication,
+  Variant,
+  AndroidVariant,
+} from '@aerogear/unifiedpush-admin-client';
+import { SetupPage } from './SetupPage';
 
 interface Props {
   open: boolean;
+  androidVariant: AndroidVariant
   close: () => void;
 }
 
 interface State {
   app?: PushApplication;
+
 }
 
 export class CreateApplicationWizard extends Component<Props, State> {
@@ -30,13 +37,13 @@ export class CreateApplicationWizard extends Component<Props, State> {
           onBack,
           onClose,
         }) => (
-          <CreateApplicationPage
-            onFinished={application => {
-              this.setState({ app: application });
-              onNext();
-            }}
-          />
-        )}
+            <CreateApplicationPage
+              onFinished={application => {
+                this.setState({ app: application });
+                onNext();
+              }}
+            />
+          )}
       </WizardContextConsumer>
     );
     const createVariantPage = (
@@ -52,6 +59,25 @@ export class CreateApplicationWizard extends Component<Props, State> {
       </WizardContextConsumer>
     );
 
+    const setupPage = (
+      <WizardContextConsumer>
+        {({
+          activeStep,
+          goToStepByName,
+          goToStepById,
+          onNext,
+          onBack,
+          onClose,
+        }) => (
+            <SetupPage
+              app={this.state.app!}
+              variant={this.props.androidVariant}
+              onFinished={onNext}
+            />
+          )}
+      </WizardContextConsumer>
+    );
+
     const steps = [
       {
         id: 1,
@@ -63,8 +89,14 @@ export class CreateApplicationWizard extends Component<Props, State> {
         id: 2,
         name: 'Create Application Variant',
         component: createVariantPage,
-        nextButtonText: 'Finish',
+        nextButtonText: 'Next',
       } as WizardStep,
+      {
+        id: 3,
+        name: 'Mobile device: Set up variant',
+        component: setupPage,
+        nextButtonText: 'Next',
+      },
     ];
 
     if (this.props.open) {
