@@ -26,7 +26,7 @@ interface Props {
   app: PushApplication;
   variant: AndroidVariant
   onFinished: () => void;
-  close?: () => void;
+
 }
 
 export class SetupPage extends Component<Props, State> {

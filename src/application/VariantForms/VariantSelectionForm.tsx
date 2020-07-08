@@ -28,6 +28,7 @@ interface State {
   iosTokenVariantForm: boolean;
   iosCertificateVariantForm: boolean;
   variantType: string;
+
 }
 
 interface Props {
@@ -46,6 +47,7 @@ export class VariantSelectionForm extends Component<Props, State> {
       iosTokenVariantForm: false,
       iosCertificateVariantForm: false,
       variantType: 'android',
+
     };
   }
 

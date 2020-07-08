@@ -16,13 +16,13 @@ import { SetupPage } from './SetupPage';
 
 interface Props {
   open: boolean;
-  androidVariant: AndroidVariant
+
   close: () => void;
 }
 
 interface State {
   app?: PushApplication;
-
+  androidVariant: AndroidVariant;
 }
 
 export class CreateApplicationWizard extends Component<Props, State> {
@@ -71,7 +71,7 @@ export class CreateApplicationWizard extends Component<Props, State> {
         }) => (
             <SetupPage
               app={this.state.app!}
-              variant={this.props.androidVariant}
+              variant={this.state.androidVariant}
               onFinished={onNext}
             />
           )}
