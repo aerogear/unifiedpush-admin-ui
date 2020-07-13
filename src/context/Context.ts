@@ -2,7 +2,7 @@ import React from 'react';
 import {
   PushApplication,
   VariantType,
-  Variant
+  Variant,
 } from '@aerogear/unifiedpush-admin-client';
 import { AlertVariant } from '@patternfly/react-core';
 
@@ -39,15 +39,15 @@ const defaultState: UpsAdminState = {
   total: 0,
   loading: false,
   error: undefined,
-  refresh: () => { },
+  refresh: () => {},
   alert: async (): Promise<void> => {
     return;
   },
   alerts: [],
-  selectVariant: async (variant: Variant) => { }
+  selectVariant: async (variant: Variant) => {},
 };
 
-export interface ContextInterface extends UpsAdminState { }
+export interface ContextInterface extends UpsAdminState {}
 
 // tslint:disable-next-line:variable-name
 export const ApplicationListContext = React.createContext<ContextInterface>(

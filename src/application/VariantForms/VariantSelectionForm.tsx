@@ -10,19 +10,20 @@ import {
 } from '@patternfly/react-core';
 import {
   PushApplication,
-  AndroidVariantDefinition,
-  WebPushVariantDefinition,
-  IOSTokenVariantDefinition,
-  IOSVariantDefinition,
-  Variant, VariantType,
+  Variant,
+  VariantType,
 } from '@aerogear/unifiedpush-admin-client';
 import { AndroidVariantForm } from './AndroidVariantForm';
 import { UpsClientFactory } from '../../utils/UpsClientFactory';
 import { WebpushVariantForm } from './WebpushVariantForm';
 import { IOSTokenVariantForm } from './IOSTokenVariantForm';
 import { IOSCertificateVariantForm } from './IOSCertificateForm';
-import { ApplicationListContext, ContextInterface } from '../../context/Context';
-import { VariantDefinition } from "@aerogear/unifiedpush-admin-client/dist/src/commands/variants/Variant";
+import {
+  ApplicationListContext,
+  ContextInterface,
+} from '../../context/Context';
+import { VariantDefinition } from '@aerogear/unifiedpush-admin-client/dist/src/commands/variants/Variant';
+import { UpsError } from '@aerogear/unifiedpush-admin-client/dist/src/errors/UpsError';
 
 interface State {
   variantName: string;
@@ -32,6 +33,7 @@ interface State {
   iosCertificateVariantForm: boolean;
   variantType: string;
   variant?: Variant;
+  errorState?: UpsError;
 }
 
 interface Props {
@@ -55,6 +57,7 @@ export class VariantSelectionForm extends Component<Props, State> {
   }
 
   render(): React.ReactNode {
+    const context = this.context as ContextInterface;
     return (
       <>
         <Modal
@@ -125,19 +128,30 @@ export class VariantSelectionForm extends Component<Props, State> {
 
               <ApplicationListContext.Consumer>
                 {({ selectVariant }: ContextInterface): ReactNode => {
+                  const createVariant = async (
+                    variant: VariantDefinition,
+                    variantType: VariantType
+                  ) => {
+                    console.log('Creating Variant');
+                    try {
+                      const newVariant = await UpsClientFactory.getUpsClient()
+                        .variants[variantType].create(
+                          this.props.app!.pushApplicationID!
+                        ) // tslint:disable-next-line:no-any
+                        .withDefinition(variant as any)
+                        .execute();
 
-                  const createVariant = async (variant: VariantDefinition, variantType: VariantType) => {
-                    const newVariant = await UpsClientFactory.getUpsClient()
-                      .variants[variantType].create(
-                        this.props.app!.pushApplicationID!
-                      )
-                      .withDefinition(variant as any)
-                      .execute();
-                    this.setState({ variant: newVariant });
-                    await selectVariant(newVariant);
-                    this.props.onFinished(newVariant);
-                    this.props.close();
-                  }
+                      this.setState({ variant: newVariant });
+                      await selectVariant(newVariant);
+                      this.props.onFinished(newVariant);
+                      this.props.close();
+                    } catch (error) {
+                      console.log('details', error.details());
+                      console.log('message', error.message);
+
+                      context.alert(error);
+                    }
+                  };
 
                   return (
                     <>
@@ -155,6 +169,7 @@ export class VariantSelectionForm extends Component<Props, State> {
                       <WebpushVariantForm
                         open={this.state.variantType === 'web_push'}
                         onSave={async variant => {
+                          console.log('variant selection form onSave');
                           await createVariant(variant, 'web_push');
                         }}
                         variantName={this.state.variantName}
@@ -184,7 +199,9 @@ export class VariantSelectionForm extends Component<Props, State> {
                           this.setState({ iosCertificateVariantForm: false });
                           this.props.close();
                         }}
-                      /></>);
+                      />
+                    </>
+                  );
                 }}
               </ApplicationListContext.Consumer>
             </FormGroup>
@@ -194,3 +211,4 @@ export class VariantSelectionForm extends Component<Props, State> {
     );
   }
 }
+VariantSelectionForm.contextType = ApplicationListContext;

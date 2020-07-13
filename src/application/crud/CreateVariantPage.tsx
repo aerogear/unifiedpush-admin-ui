@@ -8,12 +8,15 @@ import {
   EmptyStateBody,
   Bullseye,
   Button,
-  WizardContextConsumer
+  WizardContextConsumer,
 } from '@patternfly/react-core';
 import { PushApplication } from '@aerogear/unifiedpush-admin-client';
 import { VariantSelectionForm } from '../VariantForms/VariantSelectionForm';
 import App from '../../App';
-import { ApplicationListContext, ContextInterface } from '../../context/Context';
+import {
+  ApplicationListContext,
+  ContextInterface,
+} from '../../context/Context';
 
 interface State {
   variantName: string;
@@ -64,19 +67,14 @@ export class CreateVariantPage extends Component<Props, State> {
             </Button>
           </Bullseye>
           <WizardContextConsumer>
-            {({
-              onNext,
-            }) => (
-                <VariantSelectionForm
-                  open={this.state.variantSelectionForm}
-                  close={() => this.setState({ variantSelectionForm: false })}
-                  app={this.props.app}
-                  onFinished={
-                    onNext
-                  }
-                />
-              )
-            }
+            {({ onNext }) => (
+              <VariantSelectionForm
+                open={this.state.variantSelectionForm}
+                close={() => this.setState({ variantSelectionForm: false })}
+                app={this.props.app}
+                onFinished={onNext}
+              />
+            )}
           </WizardContextConsumer>
         </EmptyState>
       </>
