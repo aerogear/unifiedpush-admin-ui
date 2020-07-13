@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 
 import {
   TextInput,
@@ -14,12 +14,15 @@ import {
   WebPushVariantDefinition,
   IOSTokenVariantDefinition,
   IOSVariantDefinition,
+  Variant, VariantType,
 } from '@aerogear/unifiedpush-admin-client';
 import { AndroidVariantForm } from './AndroidVariantForm';
 import { UpsClientFactory } from '../../utils/UpsClientFactory';
 import { WebpushVariantForm } from './WebpushVariantForm';
 import { IOSTokenVariantForm } from './IOSTokenVariantForm';
 import { IOSCertificateVariantForm } from './IOSCertificateForm';
+import { ApplicationListContext, ContextInterface } from '../../context/Context';
+import { VariantDefinition } from "@aerogear/unifiedpush-admin-client/dist/src/commands/variants/Variant";
 
 interface State {
   variantName: string;
@@ -28,12 +31,14 @@ interface State {
   iosTokenVariantForm: boolean;
   iosCertificateVariantForm: boolean;
   variantType: string;
+  variant?: Variant;
 }
 
 interface Props {
   app?: PushApplication;
   open: boolean;
   close: () => void;
+  onFinished: (variant: Variant | undefined) => void;
 }
 
 export class VariantSelectionForm extends Component<Props, State> {
@@ -117,70 +122,71 @@ export class VariantSelectionForm extends Component<Props, State> {
                   }}
                 />
               </List>
-              <AndroidVariantForm
-                open={this.state.variantType === 'android'}
-                onSave={async variant => {
-                  await UpsClientFactory.getUpsClient()
-                    .variants.android.create(this.props.app!.pushApplicationID!)
-                    .withDefinition(variant as AndroidVariantDefinition)
-                    .execute();
-                  this.props.close();
+
+              <ApplicationListContext.Consumer>
+                {({ selectVariant }: ContextInterface): ReactNode => {
+
+                  const createVariant = async (variant: VariantDefinition, variantType: VariantType) => {
+                    const newVariant = await UpsClientFactory.getUpsClient()
+                      .variants[variantType].create(
+                        this.props.app!.pushApplicationID!
+                      )
+                      .withDefinition(variant as any)
+                      .execute();
+                    this.setState({ variant: newVariant });
+                    await selectVariant(newVariant);
+                    this.props.onFinished(newVariant);
+                    this.props.close();
+                  }
+
+                  return (
+                    <>
+                      <AndroidVariantForm
+                        open={this.state.variantType === 'android'}
+                        onSave={async variant => {
+                          await createVariant(variant, 'android');
+                        }}
+                        variantName={this.state.variantName}
+                        close={() => {
+                          this.setState({ androidVariantForm: false });
+                          this.props.close();
+                        }}
+                      />
+                      <WebpushVariantForm
+                        open={this.state.variantType === 'web_push'}
+                        onSave={async variant => {
+                          await createVariant(variant, 'web_push');
+                        }}
+                        variantName={this.state.variantName}
+                        close={() => {
+                          this.setState({ webpushVariantForm: false });
+                          this.props.close();
+                        }}
+                      />
+                      <IOSTokenVariantForm
+                        open={this.state.variantType === 'ios_token'}
+                        onSave={async variant => {
+                          await createVariant(variant, 'ios_token');
+                        }}
+                        variantName={this.state.variantName}
+                        close={() => {
+                          this.setState({ iosTokenVariantForm: false });
+                          this.props.close();
+                        }}
+                      />
+                      <IOSCertificateVariantForm
+                        open={this.state.variantType === 'ios'}
+                        onSave={async variant => {
+                          await createVariant(variant, 'ios');
+                        }}
+                        variantName={this.state.variantName}
+                        close={() => {
+                          this.setState({ iosCertificateVariantForm: false });
+                          this.props.close();
+                        }}
+                      /></>);
                 }}
-                variantName={this.state.variantName}
-                close={() => {
-                  this.setState({ androidVariantForm: false });
-                  this.props.close();
-                }}
-              />
-              <WebpushVariantForm
-                open={this.state.variantType === 'web_push'}
-                onSave={async variant => {
-                  await UpsClientFactory.getUpsClient()
-                    .variants.web_push.create(
-                      this.props.app!.pushApplicationID!
-                    )
-                    .withDefinition(variant as WebPushVariantDefinition)
-                    .execute();
-                  this.props.close();
-                }}
-                variantName={this.state.variantName}
-                close={() => {
-                  this.setState({ webpushVariantForm: false });
-                  this.props.close();
-                }}
-              />
-              <IOSTokenVariantForm
-                open={this.state.variantType === 'ios_token'}
-                onSave={async variant => {
-                  await UpsClientFactory.getUpsClient()
-                    .variants.ios_token.create(
-                      this.props.app!.pushApplicationID!
-                    )
-                    .withDefinition(variant as IOSTokenVariantDefinition)
-                    .execute();
-                  this.props.close();
-                }}
-                variantName={this.state.variantName}
-                close={() => {
-                  this.setState({ iosTokenVariantForm: false });
-                  this.props.close();
-                }}
-              />
-              <IOSCertificateVariantForm
-                open={this.state.variantType === 'ios'}
-                onSave={async variant => {
-                  await UpsClientFactory.getUpsClient()
-                    .variants.ios.create(this.props.app!.pushApplicationID!)
-                    .withDefinition(variant as IOSVariantDefinition)
-                    .execute();
-                  this.props.close();
-                }}
-                variantName={this.state.variantName}
-                close={() => {
-                  this.setState({ iosCertificateVariantForm: false });
-                  this.props.close();
-                }}
-              />
+              </ApplicationListContext.Consumer>
             </FormGroup>
           </Form>
         </Modal>
