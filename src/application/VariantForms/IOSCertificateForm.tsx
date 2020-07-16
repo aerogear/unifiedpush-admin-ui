@@ -11,7 +11,7 @@ import { Variant, IOSVariant } from '@aerogear/unifiedpush-admin-client';
 const parseDataURL = require('data-urls');
 
 interface State {
-  iosCertificate?: string | File;
+  iosCertificate?: string;
   filename?: string;
   passphrase?: string;
   production: boolean;
@@ -67,13 +67,6 @@ export class IOSCertificateVariantForm extends Component<Props, State> {
                 const bufferedCert = Buffer.from(
                   parsedCertificate.body
                 ).toString('base64');
-                console.log({
-                  parsedCertificate,
-                  value,
-                  filename,
-                  type: typeof value,
-                  bufferedCert,
-                });
                 this.setState({ iosCertificate: bufferedCert, filename });
               }
             }}

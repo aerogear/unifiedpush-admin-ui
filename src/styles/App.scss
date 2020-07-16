@@ -3,6 +3,7 @@
 @import 'app-list.scss';
 @import 'globals.scss' ;
 @import 'app-details.scss';
+@import 'variant-forms.scss';
 
 :root {
   --pf-global--FontSize--4xl: 2.25rem;
@@ -104,19 +105,4 @@ emptyState {
 
 .dialogBtn {
   margin-right: 10px;
-}
-
-//styling for variant forms
-
-.variantFormButtons {
-  margin-right: 10px;
-}
-
-.radioList {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.radioBtn {
-  margin-bottom: 10px;
 }
