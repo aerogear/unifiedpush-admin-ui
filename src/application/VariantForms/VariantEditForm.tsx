@@ -1,65 +1,68 @@
 import React, { Component, ReactNode } from 'react';
-import {AndroidVariantForm} from "./AndroidVariantForm";
-import {WebpushVariantForm} from "./WebpushVariantForm";
-import {IOSTokenVariantForm} from "./IOSTokenVariantForm";
-import {IOSCertificateVariantForm} from "./IOSCertificateForm";
-import {VariantType} from "@aerogear/unifiedpush-admin-client";
+import { AndroidVariantForm } from './AndroidVariantForm';
+import { WebpushVariantForm } from './WebpushVariantForm';
+import { IOSTokenVariantForm } from './IOSTokenVariantForm';
+import { IOSCertificateVariantForm } from './IOSCertificateForm';
+import { Variant, VariantType } from '@aerogear/unifiedpush-admin-client';
+import { Modal, ModalVariant } from '@patternfly/react-core';
 
 interface Props {
-    type: VariantType;
-    name: string;
+  type: string;
+  name: string;
+  onCancel: () => void;
+  onSave: (variant: Variant) => void;
 }
 
-export class VariantEditForm extends Component<Props> {
-    render = () => {
-        return (
-            <>
-            <AndroidVariantForm
-                open={this.props.type === 'android'}
-                onSave={async variant => {
-                    await createVariant(variant, 'android');
-                }}
-                variantName={this.props.name}
-                close={() => {
-                    this.setState({ androidVariantForm: false });
-                    this.props.close();
-                }}
-            />
+interface ModalProps extends Props {
+  open: boolean;
+}
+
+class AbstractVariantEditForm<T extends Props> extends Component<T> {
+  render() {
+    return (
+      <>
+        <AndroidVariantForm
+          open={this.props.type === 'android'}
+          onSave={this.props.onSave}
+          variantName={this.props.name}
+          close={this.props.onCancel}
+        />
         <WebpushVariantForm
-            open={this.props.type === 'web_push'}
-            onSave={async variant => {
-                console.log('variant selection form onSave');
-                await createVariant(variant, 'web_push');
-            }}
-            variantName={this.props.name}
-            close={() => {
-                this.setState({ webpushVariantForm: false });
-                this.props.close();
-            }}
+          open={this.props.type === 'web_push'}
+          onSave={this.props.onSave}
+          variantName={this.props.name}
+          close={this.props.onCancel}
         />
         <IOSTokenVariantForm
-            open={this.props.type === 'ios_token'}
-            onSave={async variant => {
-                await createVariant(variant, 'ios_token');
-            }}
-            variantName={this.props.name}
-            close={() => {
-                this.setState({ iosTokenVariantForm: false });
-                this.props.close();
-            }}
+          open={this.props.type === 'ios_token'}
+          onSave={this.props.onSave}
+          variantName={this.props.name}
+          close={this.props.onCancel}
         />
         <IOSCertificateVariantForm
-            open={this.props.type === 'ios'}
-            onSave={async variant => {
-                await createVariant(variant, 'ios');
-            }}
-            variantName={this.props.name}
-            close={() => {
-                this.setState({ iosCertificateVariantForm: false });
-                this.props.close();
-            }}
+          open={this.props.type === 'ios'}
+          onSave={this.props.onSave}
+          variantName={this.props.name}
+          close={this.props.onCancel}
         />
-        </>
-        );
-    }
+      </>
+    );
+  }
+}
+
+export class VariantEditForm extends AbstractVariantEditForm<Props> {}
+
+export class VariantEditFormModal extends AbstractVariantEditForm<ModalProps> {
+  render = () => {
+    return (
+      <Modal
+        variant={ModalVariant.large}
+        title={'Add Variant'}
+        isOpen={this.props.open}
+        onClose={this.props.onCancel}
+      >
+        {super.render()}
+      </Modal>
+    );
+  };
 }
